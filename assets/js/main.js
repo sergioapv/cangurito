@@ -5,7 +5,7 @@ const PRODUCTS = [
     id: 1,
     name: "Kit Conjunto de Bebé",
     description: "Conjunto completo com manta 100% algodão, chocalho artesanal em crochet com argola de madeira, babete em tecido duplo e meias com pompom. Ideal para oferecer!",
-    price: 89.90,
+    price: 44.90,
     includes: ["Manta 100% Algodão", "Chocalho em Crochet c/ Argola de Madeira", "Babete Tecido Duplo", "Meias com Pompom"],
     colors: [
       { name: "Bege",   hex: "#c9a87b", image: "assets/images/kit-conjunto-bege.jpeg" },
@@ -20,7 +20,7 @@ const PRODUCTS = [
     id: 2,
     name: "Kit Presente para Bebé",
     description: "Kit completo e delicado com almofada estrela, corrente de chupeta, chupeta, mordedor e musselina. Perfeito para oferecer — feito com amor!",
-    price: 79.90,
+    price: 39.90,
     includes: ["Almofada Estrela", "Corrente de Chupeta", "Chupeta", "Mordedor", "Muselina"],
     colors: [
       { name: "Azul",  hex: "#8ab4cc", image: "assets/images/kit-chupeta-azul.jpeg" },
