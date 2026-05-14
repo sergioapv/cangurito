@@ -693,6 +693,31 @@ img { max-width: 100%; display: block; }
 .form-group input.error,
 .form-group textarea.error { border-color: #c0392b; }
 
+/* ===== ORDER REFERENCE ===== */
+.order-ref-box {
+  background: var(--brown-dk);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.order-ref-label {
+  font-size: .75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  opacity: .7;
+  margin-bottom: 6px;
+}
+.order-ref-number {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  margin-bottom: 12px;
+}
+
 /* ===== CONFIRM MODAL ===== */
 .modal--confirm { text-align: center; }
 

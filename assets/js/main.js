@@ -34,6 +34,15 @@ const PRODUCTS = [
 // MB WAY contact — change this to the store's actual number
 const PIX_KEY = "+351 912 345 678";
 
+function generateOrderRef() {
+  const date = new Date();
+  const datePart = date.getFullYear().toString() +
+    String(date.getMonth() + 1).padStart(2, "0") +
+    String(date.getDate()).padStart(2, "0");
+  const random = Math.random().toString(36).toUpperCase().slice(2, 6);
+  return `CNG-${datePart}-${random}`;
+}
+
 // ===== STATE =====
 let cart = [];
 
@@ -259,10 +268,13 @@ function closeCheckout() {
 
 // ===== CONFIRM ORDER =====
 function showConfirmation(name, email) {
+  const ref = generateOrderRef();
   document.getElementById("confirmName").textContent = name;
   document.getElementById("confirmEmail").textContent = email;
   document.getElementById("confirmTotal").textContent = fmt(cartTotal());
   document.getElementById("pixKey").textContent = PIX_KEY;
+  document.getElementById("orderRef").textContent = ref;
+  document.getElementById("orderRefInline").textContent = ref;
 
   // Order items list
   const orderEl = document.getElementById("confirmOrder");
@@ -295,6 +307,15 @@ function copyPix() {
     const btn = document.getElementById("copyPixBtn");
     btn.textContent = "Copiado!";
     setTimeout(() => { btn.textContent = "Copiar Contacto"; }, 2000);
+  });
+}
+
+function copyRef() {
+  const ref = document.getElementById("orderRef").textContent;
+  navigator.clipboard.writeText(ref).then(() => {
+    const btn = document.getElementById("copyRefBtn");
+    btn.textContent = "Copiado!";
+    setTimeout(() => { btn.textContent = "Copiar Referência"; }, 2000);
   });
 }
 

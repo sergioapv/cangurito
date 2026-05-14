@@ -174,16 +174,22 @@
       <p class="confirm__msg">Obrigada pela sua compra, <strong id="confirmName"></strong>!<br/>
         Enviaremos um e-mail para <strong id="confirmEmail"></strong> com as instruções de pagamento e todos os detalhes do seu pedido.</p>
 
+      <div class="order-ref-box">
+        <p class="order-ref-label">Referência da Encomenda</p>
+        <p class="order-ref-number" id="orderRef"></p>
+        <button class="btn btn--outline btn--sm" id="copyRefBtn" onclick="copyRef()">Copiar Referência</button>
+      </div>
+
       <div class="payment-box">
         <h3>Instruções de Pagamento</h3>
-        <p>Para confirmar o seu pedido, efetue o pagamento do valor abaixo via <strong>MB WAY</strong> ou <strong>Transferência Bancária</strong>:</p>
+        <p>Para confirmar a sua encomenda, efetue o pagamento do valor abaixo via <strong>MB WAY</strong> ou <strong>Transferência Bancária</strong>:</p>
         <div class="payment-amount" id="confirmTotal"></div>
         <div class="payment-pix">
           <p class="payment-pix__label">Contacto MB WAY</p>
           <p class="payment-pix__key" id="pixKey">+351 912 345 678</p>
           <button class="btn btn--outline btn--sm" id="copyPixBtn" onclick="copyPix()">Copiar Contacto</button>
         </div>
-        <p class="payment-info">Após efetuar o pagamento, envie o comprovativo para o nosso <a href="https://wa.me/351912345678" target="_blank">WhatsApp</a> ou responda ao e-mail de confirmação. O seu pedido será processado em até <strong>24 horas</strong> após a confirmação do pagamento.</p>
+        <p class="payment-info">Indique a referência <strong id="orderRefInline"></strong> na descrição do pagamento. Após efetuar o pagamento, envie o comprovativo para o nosso <a href="https://wa.me/351912345678" target="_blank">WhatsApp</a> ou responda ao e-mail de confirmação. A encomenda será processada em até <strong>24 horas</strong> após confirmação do pagamento.</p>
       </div>
 
       <div class="confirm__order" id="confirmOrder"></div>
