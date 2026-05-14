@@ -3,10 +3,10 @@
 const PRODUCTS = [
   {
     id: 1,
-    name: "Kit Conjunto de Bebê",
-    description: "Conjunto completo com manta 100% algodão, chocalho artesanal em crochê com argola de madeira, babete em tecido duplo e meias com pompom. Ideal para presentear!",
+    name: "Kit Conjunto de Bebé",
+    description: "Conjunto completo com manta 100% algodão, chocalho artesanal em crochet com argola de madeira, babete em tecido duplo e meias com pompom. Ideal para oferecer!",
     price: 89.90,
-    includes: ["Manta 100% Algodão", "Chocalho em Crochê c/ Argola de Madeira", "Babete Tecido Duplo", "Meias com Pompom"],
+    includes: ["Manta 100% Algodão", "Chocalho em Crochet c/ Argola de Madeira", "Babete Tecido Duplo", "Meias com Pompom"],
     colors: [
       { name: "Bege",   hex: "#c9a87b", image: "assets/images/kit-conjunto-bege.jpeg" },
       { name: "Rosa",   hex: "#e8a0a0", image: "assets/images/kit-conjunto-rosa.jpeg" },
@@ -18,8 +18,8 @@ const PRODUCTS = [
   },
   {
     id: 2,
-    name: "Kit Presente para Bebê",
-    description: "Kit completo e delicado com almofada estrela, corrente de chupeta, chupeta, mordedor e muselina. Perfeito para oferecer — feito com amor!",
+    name: "Kit Presente para Bebé",
+    description: "Kit completo e delicado com almofada estrela, corrente de chupeta, chupeta, mordedor e musselina. Perfeito para oferecer — feito com amor!",
     price: 79.90,
     includes: ["Almofada Estrela", "Corrente de Chupeta", "Chupeta", "Mordedor", "Muselina"],
     colors: [
@@ -31,15 +31,15 @@ const PRODUCTS = [
   },
 ];
 
-// PIX key — change this to the store's actual PIX key
-const PIX_KEY = "contato@cangurito.com.br";
+// MB WAY contact — change this to the store's actual number
+const PIX_KEY = "+351 912 345 678";
 
 // ===== STATE =====
 let cart = [];
 
 // ===== HELPERS =====
 function fmt(value) {
-  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  return value.toLocaleString("pt-PT", { style: "currency", currency: "EUR" });
 }
 
 function cartTotal() {
@@ -104,7 +104,7 @@ function renderProducts() {
         <div class="product-card__footer">
           <div class="product-card__price">
             ${fmt(product.price)}
-            <small>frete a calcular no checkout</small>
+            <small>portes a calcular no checkout</small>
           </div>
           <button class="btn btn--primary" onclick="addToCart(${product.id})">
             Adicionar ao Carrinho
@@ -190,7 +190,7 @@ function renderCart() {
   countEl.textContent = cartCount();
 
   if (cart.length === 0) {
-    body.innerHTML = `<p class="cart-empty">Seu carrinho está vazio.</p>`;
+    body.innerHTML = `<p class="cart-empty">O seu carrinho está vazio.</p>`;
     footer.style.display = "none";
     return;
   }
@@ -267,7 +267,7 @@ function showConfirmation(name, email) {
   // Order items list
   const orderEl = document.getElementById("confirmOrder");
   orderEl.innerHTML = `
-    <p style="margin-bottom:8px"><strong>Resumo do pedido:</strong></p>
+    <p style="margin-bottom:8px"><strong>Resumo da encomenda:</strong></p>
     ${cart.map(item =>
       `<p>• ${item.name} <em>(${item.color})</em> ×${item.qty} — ${fmt(item.price * item.qty)}</p>`
     ).join("")}
@@ -294,7 +294,7 @@ function copyPix() {
   navigator.clipboard.writeText(key).then(() => {
     const btn = document.getElementById("copyPixBtn");
     btn.textContent = "Copiado!";
-    setTimeout(() => { btn.textContent = "Copiar Chave"; }, 2000);
+    setTimeout(() => { btn.textContent = "Copiar Contacto"; }, 2000);
   });
 }
 
@@ -318,10 +318,10 @@ function validateForm(form) {
   return valid;
 }
 
-// ===== CEP MASK =====
+// ===== CÓDIGO POSTAL MASK (PT: 0000-000) =====
 function cepMask(e) {
-  let v = e.target.value.replace(/\D/g, "").slice(0, 8);
-  if (v.length > 5) v = v.slice(0, 5) + "-" + v.slice(5);
+  let v = e.target.value.replace(/\D/g, "").slice(0, 7);
+  if (v.length > 4) v = v.slice(0, 4) + "-" + v.slice(4);
   e.target.value = v;
 }
 
