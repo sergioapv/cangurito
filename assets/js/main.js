@@ -379,7 +379,9 @@ document.addEventListener("DOMContentLoaded", () => {
       name:    document.getElementById("custName").value.trim(),
       email:   document.getElementById("custEmail").value.trim(),
       phone:   document.getElementById("custPhone").value.trim(),
-      address: `${document.getElementById("custCep").value.trim()} ${document.getElementById("custAddress").value.trim()}`,
+      postal:  document.getElementById("custCep").value.trim(),
+      address: document.getElementById("custAddress").value.trim(),
+      note:    document.getElementById("custNote").value.trim(),
     };
 
     try {

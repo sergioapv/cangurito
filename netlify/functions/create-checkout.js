@@ -10,6 +10,10 @@ exports.handler = async (event) => {
   try {
     const { items, customer, orderRef } = JSON.parse(event.body);
 
+    const itemsSummary = items
+      .map((i) => `${i.name} (${i.color}) x${i.qty}`)
+      .join(" | ");
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card", "mb_way"],
       mode: "payment",
@@ -25,13 +29,29 @@ exports.handler = async (event) => {
         quantity: item.qty,
       })),
       metadata: {
-        order_ref: orderRef,
-        customer_name: customer.name,
-        customer_phone: customer.phone,
-        customer_address: customer.address,
+        order_ref:   orderRef,
+        name:        customer.name,
+        email:       customer.email,
+        phone:       customer.phone,
+        postal_code: customer.postal,
+        address:     customer.address,
+        note:        customer.note || "—",
+        items:       itemsSummary,
+      },
+      payment_intent_data: {
+        receipt_email: customer.email,
+        metadata: {
+          order_ref:   orderRef,
+          name:        customer.name,
+          phone:       customer.phone,
+          postal_code: customer.postal,
+          address:     customer.address,
+          note:        customer.note || "—",
+          items:       itemsSummary,
+        },
       },
       success_url: `${SITE_URL}/success.html?ref=${orderRef}`,
-      cancel_url: `${SITE_URL}/`,
+      cancel_url:  `${SITE_URL}/`,
     });
 
     return {
