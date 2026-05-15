@@ -366,12 +366,38 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === document.getElementById("confirmOverlay")) closeConfirm();
   });
 
-  document.getElementById("checkoutForm").addEventListener("submit", e => {
+  document.getElementById("checkoutForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!validateForm(e.target)) return;
-    const name = document.getElementById("custName").value.trim();
-    const email = document.getElementById("custEmail").value.trim();
-    showConfirmation(name, email);
-    e.target.reset();
+
+    const submitBtn = e.target.querySelector("[type=submit]");
+    submitBtn.textContent = "A processar…";
+    submitBtn.disabled = true;
+
+    const orderRef = generateOrderRef();
+    const customer = {
+      name:    document.getElementById("custName").value.trim(),
+      email:   document.getElementById("custEmail").value.trim(),
+      phone:   document.getElementById("custPhone").value.trim(),
+      address: `${document.getElementById("custCep").value.trim()} ${document.getElementById("custAddress").value.trim()}`,
+    };
+
+    try {
+      const res = await fetch("/.netlify/functions/create-checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: cart, customer, orderRef }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || "Erro desconhecido");
+      }
+    } catch (err) {
+      alert("Erro ao processar o pedido. Por favor tente novamente.");
+      submitBtn.textContent = "Confirmar Pedido";
+      submitBtn.disabled = false;
+    }
   });
 });

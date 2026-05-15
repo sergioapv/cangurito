@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamento Confirmado — Cangurito</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .success-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px;
+      background: linear-gradient(135deg, var(--beige) 0%, var(--pink-lt) 50%, var(--blue-lt) 100%);
+    }
+    .success-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .success-icon { font-size: 4rem; margin-bottom: 16px; }
+    .success-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--brown-dk);
+      margin-bottom: 12px;
+    }
+    .success-msg {
+      color: var(--text-lt);
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+    .success-ref-box {
+      background: var(--brown-dk);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      margin-bottom: 28px;
+    }
+    .success-ref-label {
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      opacity: .7;
+      margin-bottom: 4px;
+    }
+    .success-ref-number {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+    @media (max-width: 480px) {
+      .success-card { padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="success-page">
+    <div class="success-card">
+      <div class="success-icon">🎉</div>
+      <h1 class="success-title">Pagamento Confirmado!</h1>
+      <p class="success-msg">
+        Obrigada pela sua encomenda. O pagamento foi processado com sucesso e receberá em breve um e-mail de confirmação com todos os detalhes.
+      </p>
+      <div class="success-ref-box">
+        <p class="success-ref-label">Referência da Encomenda</p>
+        <p class="success-ref-number" id="orderRef">—</p>
+      </div>
+      <a href="/" class="btn btn--primary btn--full">Continuar a Comprar</a>
+    </div>
+  </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (ref) document.getElementById("orderRef").textContent = ref;
+  </script>
+</body>
+</html>

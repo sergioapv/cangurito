@@ -1,0 +1,47 @@
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
+const SITE_URL = "https://cangurito.netlify.app";
+
+exports.handler = async (event) => {
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
+
+  try {
+    const { items, customer, orderRef } = JSON.parse(event.body);
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      customer_email: customer.email,
+      line_items: items.map((item) => ({
+        price_data: {
+          currency: "eur",
+          product_data: {
+            name: `${item.name} — ${item.color}`,
+          },
+          unit_amount: Math.round(item.price * 100),
+        },
+        quantity: item.qty,
+      })),
+      metadata: {
+        order_ref: orderRef,
+        customer_name: customer.name,
+        customer_phone: customer.phone,
+        customer_address: customer.address,
+      },
+      success_url: `${SITE_URL}/success.html?ref=${orderRef}`,
+      cancel_url: `${SITE_URL}/`,
+    });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ url: session.url }),
+    };
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: err.message }),
+    };
+  }
+};
