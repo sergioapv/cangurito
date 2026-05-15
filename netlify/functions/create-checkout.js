@@ -39,7 +39,6 @@ exports.handler = async (event) => {
         items:       itemsSummary,
       },
       payment_intent_data: {
-        receipt_email: customer.email,
         metadata: {
           order_ref:   orderRef,
           name:        customer.name,
