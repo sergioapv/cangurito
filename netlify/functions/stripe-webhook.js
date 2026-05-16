@@ -33,17 +33,11 @@ exports.handler = async (event) => {
                      : "—",
     };
 
-    // Google Sheets
+    // Google Sheets — send as URL params via GET to avoid redirect/method issues
     try {
-      const url = process.env.GOOGLE_SHEET_WEBHOOK_URL;
-      const body = JSON.stringify(payload);
-      const headers = { "Content-Type": "application/json" };
-
-      let res = await fetch(url, { method: "POST", headers, body, redirect: "manual" });
-      if (res.status === 301 || res.status === 302) {
-        const location = res.headers.get("location");
-        res = await fetch(location, { method: "POST", headers, body });
-      }
+      const params = new URLSearchParams(payload).toString();
+      const url = `${process.env.GOOGLE_SHEET_WEBHOOK_URL}?${params}`;
+      const res = await fetch(url);
       console.log("Google Sheets response:", res.status);
     } catch (err) {
       console.error("Google Sheets error:", err.message);
