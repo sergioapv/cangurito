@@ -1,4 +1,4 @@
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
@@ -51,9 +51,15 @@ exports.handler = async (event) => {
 
     // Confirmation email
     try {
-      const resend = new Resend(process.env.RESEND_API_KEY);
-      await resend.emails.send({
-        from: "Cangurito <onboarding@resend.dev>",
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.GMAIL_USER,
+          pass: process.env.GMAIL_APP_PASSWORD,
+        },
+      });
+      await transporter.sendMail({
+        from: `Cangurito <${process.env.GMAIL_USER}>`,
         to: payload.email,
         subject: `Confirmação da sua encomenda ${payload.order_ref}`,
         html: `
