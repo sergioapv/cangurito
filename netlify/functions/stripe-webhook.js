@@ -93,6 +93,12 @@ exports.handler = async (event) => {
             </table>
 
             <p>Iremos preparar a sua encomenda com todo o carinho e entraremos em contacto assim que for enviada.</p>
+
+            <div style="background:#f9f4ef;border-radius:8px;padding:16px 20px;margin:24px 0">
+              <p style="margin:0 0 8px 0">Tem alguma dúvida? Pode responder diretamente a este e-mail e entraremos em contacto o mais brevemente possível.</p>
+              <p style="margin:0">Siga-nos no Instagram para novidades e inspirações: <a href="https://instagram.com/cangurito2026" style="color:#8b5c2a">@cangurito2026</a></p>
+            </div>
+
             <p>Com carinho,<br><strong>Equipa Cangurito</strong></p>
           </div>
         `,
