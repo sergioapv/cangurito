@@ -8,26 +8,37 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { items, customer, orderRef } = JSON.parse(event.body);
+    const { items, customer, orderRef, shipping } = JSON.parse(event.body);
 
     const itemsSummary = items
       .map((i) => `${i.name} (${i.color}) x${i.qty}`)
       .join(" | ");
 
+    const lineItems = items.map((item) => ({
+      price_data: {
+        currency: "eur",
+        product_data: { name: `${item.name} — ${item.color}` },
+        unit_amount: Math.round(item.price * 100),
+      },
+      quantity: item.qty,
+    }));
+
+    if (shipping > 0) {
+      lineItems.push({
+        price_data: {
+          currency: "eur",
+          product_data: { name: "Portes de Envio" },
+          unit_amount: Math.round(shipping * 100),
+        },
+        quantity: 1,
+      });
+    }
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card", "mb_way"],
       mode: "payment",
       customer_email: customer.email,
-      line_items: items.map((item) => ({
-        price_data: {
-          currency: "eur",
-          product_data: {
-            name: `${item.name} — ${item.color}`,
-          },
-          unit_amount: Math.round(item.price * 100),
-        },
-        quantity: item.qty,
-      })),
+      line_items: lineItems,
       metadata: {
         order_ref:   orderRef,
         name:        customer.name,

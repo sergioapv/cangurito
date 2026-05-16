@@ -47,12 +47,23 @@ function generateOrderRef() {
 let cart = [];
 
 // ===== HELPERS =====
+const SHIPPING_COST = 5.99;
+const FREE_SHIPPING_THRESHOLD = 50;
+
 function fmt(value) {
   return value.toLocaleString("pt-PT", { style: "currency", currency: "EUR" });
 }
 
-function cartTotal() {
+function cartSubtotal() {
   return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+}
+
+function shippingCost() {
+  return cartSubtotal() >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+}
+
+function cartTotal() {
+  return cartSubtotal() + shippingCost();
 }
 
 function cartCount() {
@@ -113,7 +124,7 @@ function renderProducts() {
         <div class="product-card__footer">
           <div class="product-card__price">
             ${fmt(product.price)}
-            <small>portes a calcular no checkout</small>
+            <small>portes 5,99 € · grátis acima de 50 €</small>
           </div>
           <button class="btn btn--primary" onclick="addToCart(${product.id})">
             Adicionar ao Carrinho
@@ -205,6 +216,9 @@ function renderCart() {
   }
 
   footer.style.display = "block";
+  const shipping = shippingCost();
+  document.getElementById("cartSubtotal").textContent = fmt(cartSubtotal());
+  document.getElementById("cartShipping").textContent = shipping === 0 ? "Grátis" : fmt(shipping);
   totalEl.textContent = fmt(cartTotal());
 
   body.innerHTML = cart.map(item => `
@@ -250,7 +264,12 @@ function openCheckout() {
       <span>${fmt(item.price * item.qty)}</span>
     </div>`
   ).join("");
+  const shipping = shippingCost();
   summary.innerHTML = items + `
+    <div class="modal__summary-item" style="opacity:.8;font-size:.9rem">
+      <span>Portes</span>
+      <span>${shipping === 0 ? "Grátis" : fmt(shipping)}</span>
+    </div>
     <div class="modal__summary-total">
       <span>Total</span>
       <span>${fmt(cartTotal())}</span>
@@ -388,7 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch("/.netlify/functions/create-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: cart, customer, orderRef }),
+        body: JSON.stringify({ items: cart, customer, orderRef, shipping: shippingCost() }),
       });
       const data = await res.json();
       if (data.url) {

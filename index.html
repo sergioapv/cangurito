@@ -118,9 +118,17 @@
       <p class="cart-empty">O seu carrinho está vazio.</p>
     </div>
     <div class="cart-sidebar__footer" id="cartFooter" style="display:none">
+      <div class="cart-total" style="font-size:.9rem;opacity:.8;margin-bottom:4px">
+        <span>Subtotal</span>
+        <span id="cartSubtotal"></span>
+      </div>
+      <div class="cart-total" style="font-size:.9rem;opacity:.8;margin-bottom:8px">
+        <span>Portes</span>
+        <span id="cartShipping"></span>
+      </div>
       <div class="cart-total">
         <span>Total</span>
-        <strong id="cartTotal">R$ 0,00</strong>
+        <strong id="cartTotal"></strong>
       </div>
       <button class="btn btn--primary btn--full" id="checkoutBtn">Finalizar Pedido</button>
     </div>
