@@ -1,6 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-const SITE_URL = "https://cangurito.netlify.app";
+const SITE_URL = "https://cangurito-site.netlify.app";
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
@@ -39,7 +39,6 @@ exports.handler = async (event) => {
         items:       itemsSummary,
       },
       payment_intent_data: {
-        receipt_email: customer.email,
         metadata: {
           order_ref:   orderRef,
           name:        customer.name,
