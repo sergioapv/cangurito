@@ -2,6 +2,7 @@
   "name": "cangurito",
   "version": "1.0.0",
   "dependencies": {
+    "resend": "^3.0.0",
     "stripe": "^16.0.0"
   }
 }
