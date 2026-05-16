@@ -397,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(data.error || "Erro desconhecido");
       }
     } catch (err) {
-      alert("Erro ao processar o pedido. Por favor tente novamente.");
+      alert("Erro: " + err.message);
       submitBtn.textContent = "Confirmar Pedido";
       submitBtn.disabled = false;
     }
