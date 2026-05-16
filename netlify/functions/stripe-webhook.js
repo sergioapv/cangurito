@@ -91,6 +91,10 @@ exports.handler = async (event) => {
                 <td style="padding:8px 12px">${payload.order_ref}</td>
               </tr>
               <tr>
+                <td style="padding:8px 12px;font-weight:bold;vertical-align:top">Produtos</td>
+                <td style="padding:8px 12px">${payload.items.split(" | ").join("<br>")}</td>
+              </tr>
+              <tr style="background:#f9f4ef">
                 <td style="padding:8px 12px;font-weight:bold">Total</td>
                 <td style="padding:8px 12px"><strong>${payload.total}</strong></td>
               </tr>
