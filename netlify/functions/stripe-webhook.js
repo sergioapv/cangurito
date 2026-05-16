@@ -32,11 +32,15 @@ exports.handler = async (event) => {
     };
 
     try {
-      await fetch(process.env.GOOGLE_SHEET_WEBHOOK_URL, {
+      const url = process.env.GOOGLE_SHEET_WEBHOOK_URL;
+      console.log("Posting to Google Sheets:", url);
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      const text = await res.text();
+      console.log("Google Sheets response:", res.status, text);
     } catch (err) {
       console.error("Google Sheets error:", err.message);
     }
