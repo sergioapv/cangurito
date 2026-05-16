@@ -29,6 +29,7 @@ exports.handler = async (event) => {
       address:     meta.address     || "—",
       note:        meta.note        || "—",
       items:       meta.items       || "—",
+      shipping:    meta.shipping    || "—",
       total:       session.amount_total
                      ? (session.amount_total / 100).toFixed(2) + " €"
                      : "—",
@@ -93,6 +94,10 @@ exports.handler = async (event) => {
                 <td style="padding:8px 12px">${payload.items}</td>
               </tr>
               <tr style="background:#f9f4ef">
+                <td style="padding:8px 12px;font-weight:bold">Portes</td>
+                <td style="padding:8px 12px">${payload.shipping}</td>
+              </tr>
+              <tr>
                 <td style="padding:8px 12px;font-weight:bold">Total</td>
                 <td style="padding:8px 12px">${payload.total}</td>
               </tr>

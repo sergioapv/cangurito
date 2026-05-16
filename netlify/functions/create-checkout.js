@@ -14,6 +14,8 @@ exports.handler = async (event) => {
       .map((i) => `${i.name} (${i.color}) x${i.qty}`)
       .join(" | ");
 
+    const shippingLabel = shipping > 0 ? shipping.toFixed(2) + " €" : "Grátis";
+
     const lineItems = items.map((item) => ({
       price_data: {
         currency: "eur",
@@ -48,6 +50,7 @@ exports.handler = async (event) => {
         address:     customer.address,
         note:        customer.note || "—",
         items:       itemsSummary,
+        shipping:    shippingLabel,
       },
       payment_intent_data: {
         metadata: {
@@ -58,6 +61,7 @@ exports.handler = async (event) => {
           address:     customer.address,
           note:        customer.note || "—",
           items:       itemsSummary,
+          shipping:    shippingLabel,
         },
       },
       success_url: `${SITE_URL}/success.html?ref=${orderRef}`,
