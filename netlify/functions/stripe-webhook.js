@@ -53,7 +53,7 @@ exports.handler = async (event) => {
     try {
       const resend = new Resend(process.env.RESEND_API_KEY);
       await resend.emails.send({
-        from: "Cangurito <encomendas@cangurito.pt>",
+        from: "Cangurito <onboarding@resend.dev>",
         to: payload.email,
         subject: `Confirmação da sua encomenda ${payload.order_ref}`,
         html: `
