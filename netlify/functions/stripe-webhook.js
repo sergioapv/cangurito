@@ -33,12 +33,15 @@ exports.handler = async (event) => {
 
     try {
       const url = process.env.GOOGLE_SHEET_WEBHOOK_URL;
-      console.log("Posting to Google Sheets:", url);
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const body = JSON.stringify(payload);
+      const headers = { "Content-Type": "application/json" };
+
+      // Google Apps Script redirects POST → follow redirect manually to keep POST method
+      let res = await fetch(url, { method: "POST", headers, body, redirect: "manual" });
+      if (res.status === 301 || res.status === 302) {
+        const location = res.headers.get("location");
+        res = await fetch(location, { method: "POST", headers, body });
+      }
       const text = await res.text();
       console.log("Google Sheets response:", res.status, text);
     } catch (err) {
