@@ -15,7 +15,7 @@ exports.handler = async (event) => {
       .join(" | ");
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      payment_method_types: ["card", "mb_way"],
       mode: "payment",
       customer_email: customer.email,
       line_items: items.map((item) => ({
