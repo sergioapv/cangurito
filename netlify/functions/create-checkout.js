@@ -62,6 +62,7 @@ exports.handler = async (event) => {
       },
       success_url: `${SITE_URL}/success.html?ref=${orderRef}`,
       cancel_url:  `${SITE_URL}/`,
+      invoice_creation: { enabled: true },
     });
 
     return {

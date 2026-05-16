@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
@@ -43,6 +44,25 @@ exports.handler = async (event) => {
       console.error("Google Sheets error:", err.message);
     }
 
+    // Fetch Stripe invoice PDF if available
+    let invoiceAttachment = null;
+    if (session.invoice) {
+      try {
+        const invoice = await stripe.invoices.retrieve(session.invoice);
+        if (invoice.invoice_pdf) {
+          const pdfRes = await fetch(invoice.invoice_pdf);
+          const pdfBuffer = Buffer.from(await pdfRes.arrayBuffer());
+          invoiceAttachment = {
+            filename: `fatura-${payload.order_ref}.pdf`,
+            content: pdfBuffer,
+            contentType: "application/pdf",
+          };
+        }
+      } catch (err) {
+        console.error("Invoice fetch error:", err.message);
+      }
+    }
+
     // Confirmation email
     try {
       const transporter = nodemailer.createTransport({
@@ -56,6 +76,7 @@ exports.handler = async (event) => {
         from: `Cangurito <${process.env.GMAIL_USER}>`,
         to: payload.email,
         subject: `Confirmação da sua encomenda ${payload.order_ref}`,
+        attachments: invoiceAttachment ? [invoiceAttachment] : [],
         html: `
           <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#3b2a1a">
             <h2 style="color:#8b5c2a">Obrigada pela sua encomenda! 🎁</h2>
