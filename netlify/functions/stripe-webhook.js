@@ -20,6 +20,7 @@ exports.handler = async (event) => {
     const session = stripeEvent.data.object;
     const meta = session.metadata || {};
 
+    console.log("Session metadata:", JSON.stringify(meta));
     const payload = {
       order_ref:   meta.order_ref   || "—",
       name:        meta.name        || "—",
@@ -90,8 +91,8 @@ exports.handler = async (event) => {
                 <td style="padding:8px 12px">${payload.order_ref}</td>
               </tr>
               <tr>
-                <td style="padding:8px 12px;font-weight:bold">Produtos</td>
-                <td style="padding:8px 12px">${payload.items}</td>
+                <td style="padding:8px 12px;font-weight:bold;vertical-align:top">Produtos</td>
+                <td style="padding:8px 12px">${payload.items.split(" | ").join("<br>")}</td>
               </tr>
               <tr style="background:#f9f4ef">
                 <td style="padding:8px 12px;font-weight:bold">Portes</td>
@@ -99,14 +100,14 @@ exports.handler = async (event) => {
               </tr>
               <tr>
                 <td style="padding:8px 12px;font-weight:bold">Total</td>
-                <td style="padding:8px 12px">${payload.total}</td>
+                <td style="padding:8px 12px"><strong>${payload.total}</strong></td>
               </tr>
-              <tr>
+              <tr style="background:#f9f4ef">
                 <td style="padding:8px 12px;font-weight:bold">Morada</td>
                 <td style="padding:8px 12px">${payload.address}, ${payload.postal_code}</td>
               </tr>
               ${payload.note !== "—" ? `
-              <tr style="background:#f9f4ef">
+              <tr>
                 <td style="padding:8px 12px;font-weight:bold">Observações</td>
                 <td style="padding:8px 12px">${payload.note}</td>
               </tr>` : ""}
